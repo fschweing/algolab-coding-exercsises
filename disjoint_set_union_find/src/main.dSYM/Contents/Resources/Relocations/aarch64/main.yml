@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/flo/Documents/01_eth/10_hs25/01_algolab/00__prereq/cpp-algos/disjoint_set_union_find/src/main'
+relocations:     []
+...

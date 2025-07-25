@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build main",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "src/main.cpp",
+                "-o",
+                "main"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Build main.cpp using g++"
+        }
+    ]
+}
