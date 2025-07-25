@@ -40,6 +40,8 @@ void printDPTable(const std::vector<std::vector<int>> &dp)
 int knapsackDP(int cap, const std::vector<int> &weights, const std::vector<int> &values)
 {
     int n = weights.size();
+    // idea: we merge the recursion tree into the dp table, moving to the right (along row), represents taking items
+    // moving down (along col) represents leaving items
     std::vector<std::vector<int>> dp(n + 1, std::vector<int>(n + 1, 0));
 
     int max = 0;
@@ -80,6 +82,34 @@ int knapsackDP(int cap, const std::vector<int> &weights, const std::vector<int> 
     }
     // printDPTable(dp);
     return max;
+}
+
+int knapsackDP_elegant(int cap, const std::vector<int> &weights, const std::vector<int> &values)
+{
+    int n = weights.size();
+    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(cap + 1, 0));
+    // dp[i][w] is maximum value you can achieve by considering the first i items, with a weight limit w.
+
+    for (int i = 1; i <= n; ++i)
+    {
+        for (int w = 0; w <= cap; ++w)
+        {
+            if (weights[i - 1] <= w)
+            {
+                // Option 1: exclude the current item
+                // Option 2: include it (and subtract its weight from current capacity)
+                dp[i][w] = std::max(dp[i - 1][w],
+                                    values[i - 1] + dp[i - 1][w - weights[i - 1]]);
+            }
+            else
+            {
+                // Can't include current item
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+    printDPTable(dp);
+    return dp[n][cap];
 }
 
 // --- Utility to load test cases from file ---
@@ -170,7 +200,7 @@ int main()
         auto tests = loadTests(file);
 
         runTestSet("Recursive", tests, knapsackRecursive);
-        runTestSet("Dynamic Programming", tests, knapsackDP);
+        runTestSet("Dynamic Programming", tests, knapsackDP_elegant);
     }
 
     return 0;
